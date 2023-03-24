@@ -7,6 +7,9 @@ public class GameController : MonoBehaviour
     public Edvanter edvanter;
     [SerializeField] GameObject room;
 
+    public string GameState;
+    public float scene_cooldown;
+
     void Start()
     {
         
@@ -15,19 +18,36 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        startgame();
+        foreach (Transform c in transform.GetChild(0).GetComponentInChildren<Transform>())
+        {
+            if (c.name == GameState) c.gameObject.SetActive(true);
+            else c.gameObject.SetActive(false);
+        }
+        switch (GameState)
+        {
+            case "Start": startgame();break;
+            default: break;
+        }
     }
 
     public void startgame()
     {
-        if (Camera.main.transform.position.y <= 1)
+        if (Camera.main.transform.position.y < 1)
         {
-            foreach(Transform g in room.transform.GetComponentInChildren<Transform>())
+            if (scene_cooldown > 0)
             {
-                if (g.GetComponent<forceWall>() && g.GetComponent<forceWall>().forced)
+                foreach (Transform g in room.transform.GetComponentInChildren<Transform>())
                 {
-                    g.GetComponent<forceWall>().forced = false;
+                    if (g.GetComponent<forceWall>() && g.GetComponent<forceWall>().forced)
+                    {
+                        g.GetComponent<forceWall>().forced = false;
+                    }
                 }
+                scene_cooldown -= Time.deltaTime;
+            }
+            else
+            {
+                GameState = "Game";
             }
         }
         else

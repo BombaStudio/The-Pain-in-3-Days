@@ -19,6 +19,7 @@ public class forceWall : MonoBehaviour
     {
         if (!forced)
         {
+            GetComponent<Rigidbody>().isKinematic = false;
             if (time > 0)
             {
                 GetComponent<Rigidbody>().AddForce(dir);
@@ -30,6 +31,10 @@ public class forceWall : MonoBehaviour
                 time = reqTime;
                 forced = !test;
             }
+        }
+        else
+        {
+            GetComponent<Rigidbody>().isKinematic = true;
         }
     }
 }

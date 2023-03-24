@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-
+        Camera.main.transform.position = new Vector3(-13.75f,25,-7.25f);
     }
 
     // Update is called once per frame
@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour
 
     public void game()
     {
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(-11, -2, -11),Time.deltaTime);
         foreach (EdvanterObject eo in edvanter.objects)
         {
             //Debug.Log(btns.ToArray()[eo.id].transform.GetChild(0).GetComponent<Text>().text);
@@ -72,7 +73,7 @@ public class GameController : MonoBehaviour
                     {
                         if (g.GetComponent<forceWall>() && g.GetComponent<forceWall>().test)
                         {
-                            g.GetComponent<forceWall>().test = false;
+                            g.GetComponent<forceWall>().enabled = false;
                             g.GetComponent<Rigidbody>().isKinematic = false;
                         }
                     }

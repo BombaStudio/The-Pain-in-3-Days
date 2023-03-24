@@ -6,6 +6,7 @@ public class DayNightCircle : MonoBehaviour
 {
     public float daynightspeed;
     public float dayPassed;
+    public float phoneCallTime;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,11 @@ public class DayNightCircle : MonoBehaviour
         else if (dayPassed >= 1080 && dayPassed <= 1081)
         {
             Debug.Log("3 Gün Geçti");
+        }
+
+        if (dayPassed >= phoneCallTime && dayPassed < phoneCallTime)
+        {
+            Debug.Log("Telefon Çalıyor");
         }
     }
 }

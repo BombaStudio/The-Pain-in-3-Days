@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public Edvanter edvanter;
-    [SerializeField] GameObject room;
+    [SerializeField] List<GameObject> rooms;
 
     public string GameState;
     public float scene_cooldown;
@@ -36,17 +36,34 @@ public class GameController : MonoBehaviour
         {
             if (scene_cooldown > 0)
             {
-                foreach (Transform g in room.transform.GetComponentInChildren<Transform>())
+                foreach (GameObject room in rooms)
                 {
-                    if (g.GetComponent<forceWall>() && g.GetComponent<forceWall>().forced)
+                    foreach (Transform g in room.transform.GetComponentInChildren<Transform>())
                     {
-                        g.GetComponent<forceWall>().forced = false;
+                        if (g.GetComponent<forceWall>() && g.GetComponent<forceWall>().forced)
+                        {
+                            g.GetComponent<forceWall>().forced = false;
+                        }
                     }
                 }
                 scene_cooldown -= Time.deltaTime;
             }
             else
             {
+                rooms.Remove(rooms.ToArray()[0]);
+                foreach (GameObject room in rooms)
+                {
+                    room.transform.parent = transform.GetChild(0).Find("Game");
+                    foreach (Transform g in room.transform.GetComponentInChildren<Transform>())
+                    {
+                        if (g.GetComponent<forceWall>() && g.GetComponent<forceWall>().test)
+                        {
+                            g.GetComponent<forceWall>().test = false;
+                            g.GetComponent<Rigidbody>().isKinematic = false;
+                        }
+                    }
+
+                }
                 GameState = "Game";
             }
         }

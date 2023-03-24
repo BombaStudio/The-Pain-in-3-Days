@@ -9,6 +9,7 @@ public class forceWall : MonoBehaviour
     public float time;
     public Vector3 dir;
 
+
     float reqTime;
     void Start()
     {

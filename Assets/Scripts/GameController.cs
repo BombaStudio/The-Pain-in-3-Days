@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -10,9 +12,11 @@ public class GameController : MonoBehaviour
     public string GameState;
     public float scene_cooldown;
 
+    [SerializeField] List<Button> btns;
+
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -25,11 +29,21 @@ public class GameController : MonoBehaviour
         }
         switch (GameState)
         {
-            case "Start": startgame();break;
+            case "Start": startgame(); break;
+            case "Game": game(); break;
             default: break;
         }
     }
 
+
+    public void game()
+    {
+        foreach (EdvanterObject eo in edvanter.objects)
+        {
+            //Debug.Log(btns.ToArray()[eo.id].transform.GetChild(0).GetComponent<Text>().text);
+            btns.ToArray()[eo.id].transform.GetChild(0).GetComponent<Text>().text = eo.health.ToString();
+        }
+    }
     public void startgame()
     {
         if (Camera.main.transform.position.y < 1)
@@ -83,7 +97,7 @@ public class Edvanter
 public class EdvanterObject
 {
     public int id;
-    public float health;
-    public float effect;
+    public int health;
+    public int effect;
     //public bool used;
 }

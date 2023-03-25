@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    [SerializeField] GameObject hear,leftArm,rightArm;
+    [SerializeField] GameObject phoneObj,leftTarget,rightTarget;
     [SerializeField] Animator animator;
 
     public string pose;
@@ -19,11 +19,26 @@ public class player : MonoBehaviour
 
     void Update()
     {
+        phoneObj.SetActive(false);
         if (gc.objectTime > 0 && gc.usableObject != null)
         {
             switch (gc.usableObject.id)
             {
                 case 0:
+                    if (Input.GetMouseButton(0))
+                    {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit;
+
+                        // Raycast ile zemine çarpýldýðýnda
+                        if (Physics.Raycast(ray, out hit))
+                        {
+                            // Küpün pozisyonunu týklanan noktaya ayarla
+                            Vector3 cubePosition = hit.point + Vector3.up * 0.5f;
+                            leftTarget.transform.position = cubePosition;
+                        }
+                    }
+                    phoneObj.SetActive(true);
                     break;
                 case 1:
                     gc.data.food += gc.usableObject.effect * Time.deltaTime;

@@ -20,8 +20,8 @@ public class GameController : MonoBehaviour
     [SerializeField] Text health_print, food_print, water_print, air_print;
     [SerializeField] Button phone_button, health_button, food_button, water_button;
 
-    [SerializeField] bool usePhone;
-    [SerializeField] float minutes,phoneminutes;
+    [SerializeField] bool usePhone,ringing;
+    [SerializeField] float minutes;
 
     void Start()
     {
@@ -64,6 +64,21 @@ public class GameController : MonoBehaviour
 
     public void game()
     {
+        switch (data.day)
+        {
+            case 0: break;
+            case 1:
+                if (minutes > 30 && minutes < 60)
+                {
+
+                }
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:break;
+        }
         if (usePhone)
         {
             foreach (EdvanterObject eo in edvanter.objects)
@@ -71,6 +86,7 @@ public class GameController : MonoBehaviour
                 if (eo.id == 0)
                 {
                     usableObject = eo;
+                    eo.health = (int)(eo.useCooldown / 180 * 100);
                     objectTime = eo.useCooldown;
                     break;
                 }
@@ -192,17 +208,21 @@ public class GameController : MonoBehaviour
                     {
                         if (usePhone)
                         {
-                            usePhone = false;
-                            usableObject = null;
+                            if (ringing) ringing = false;
+                            else
+                            {
+                                usePhone = false;
+                                usableObject = null;
+                            }
                         }
                         else
                         {
-                            if (eo.useCooldown > 0)
+                            if (eo.useCooldown > 0 && eo.health > 0)
                             {
                                 usePhone = true;
                                 objectTime = eo.useCooldown;
                                 Debug.Log(eo.id);
-                                eo.health -= 1;
+                                //eo.health -= 1;
                                 usableObject = eo;
                             }
                         }

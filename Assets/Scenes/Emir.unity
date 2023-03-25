@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17757812, g: 0.22232248, b: 0.30451846, a: 1}
+  m_IndirectSpecularColor: {r: 0.000017033932, g: 0.000000025772884, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1918,7 +1918,8 @@ MonoBehaviour:
   openPhone: {fileID: 8300000, guid: e2153ff6c726a154eb63fa434d966f7d, type: 3}
   eat: {fileID: 8300000, guid: 00f92e9f9d135764eb9dd9004eaca9ac, type: 3}
   drink: {fileID: 8300000, guid: c434f604eb3d4274a9180f5f27e2ce6f, type: 3}
-  GameState: Game
+  call: {fileID: 8300000, guid: f868a74ff8d645544ba3281338d5ed63, type: 3}
+  GameState: Start
   scene_cooldown: 10
   usableObject:
     id: 0
@@ -1937,6 +1938,7 @@ MonoBehaviour:
   usePhone: 0
   ringing: 0
   minutes: 0
+  callType: 
 --- !u!4 &406697426
 Transform:
   m_ObjectHideFlags: 0
@@ -7001,14 +7003,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233034640}
-  m_LocalRotation: {x: 0.53447425, y: -0.23428012, z: -0.004307583, w: 0.812054}
+  m_LocalRotation: {x: -0.5362429, y: -0.46091607, z: -0.46091607, w: 0.5362429}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 60, y: -50.372, z: -30.988}
+  m_LocalEulerAnglesHint: {x: -90, y: -50.372, z: -30.988}
 --- !u!114 &1233034643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7045,6 +7047,7 @@ MonoBehaviour:
   dayPassed: 0
   phoneCallTime: 0
   phoneCallLastTime: 0
+  gc: {fileID: 406697425}
 --- !u!1 &1262553522
 GameObject:
   m_ObjectHideFlags: 0

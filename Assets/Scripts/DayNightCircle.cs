@@ -9,6 +9,8 @@ public class DayNightCircle : MonoBehaviour
     public float phoneCallTime;
     public float phoneCallLastTime;
 
+    public GameController gc;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,66 +26,65 @@ public class DayNightCircle : MonoBehaviour
         // daynighttime = daynightspeed * Time.deltaTime;
         transform.Rotate(daynightspeed * Time.deltaTime, 0, 0);
         dayPassed += daynightspeed * Time.deltaTime;
+        /*
         if (dayPassed >= 360 && dayPassed <= 361)
         {
             Debug.Log("1 Gün Geçti");
+            gc.data.day = 1;
+            
         }
         else if (dayPassed >= 720 && dayPassed <= 721)
         {
             Debug.Log("2 Gün Geçti");
+            gc.data.day = 2;
         }
         else if (dayPassed >= 1080 && dayPassed <= 1081)
         {
             Debug.Log("3 Gün Geçti");
+            gc.data.day = 3;
         }
+        */
 
-        if (dayPassed >= 30 && dayPassed <= 35)
+        #region day 1
+        if (!gc.ringing)
         {
-            Debug.Log("Telefon Çalıyor(troll)");
-            if (Input.GetKeyDown(KeyCode.X))
+            if (dayPassed > 30 && dayPassed < 60)
             {
-                Debug.Log("Telefon Açıldı");
+                Debug.Log("Telefon Çalıyor(troll)");
+                gc.ringing = true;
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    Debug.Log("Telefon Açıldı");
+                }
+            }
+            else if (dayPassed > 40 && dayPassed < 70)
+            {
+                Debug.Log("Telefon Çalıyor(ihbar)");
+                gc.ringing = true;
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    Debug.Log("Telefon Açıldı");
+                }
+            }
+            else if (dayPassed > 90 && dayPassed < 120)
+            {
+                Debug.Log("Telefon Çalıyor(troll)");
+                gc.ringing = true;
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    Debug.Log("Telefon Açıldı");
+                }
+            }
+            else if (dayPassed > 100 && dayPassed < 130)
+            {
+                Debug.Log("Telefon Çalıyor(ihbar)");
+                gc.ringing = true;
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    Debug.Log("Telefon Açıldı");
+                }
             }
         }
-        else if (dayPassed >= 60 && dayPassed <= 65)
-        {
-            Debug.Log("Telefon Çalıyor(ihbar)");
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                Debug.Log("Telefon Açıldı");
-            }
-        }
-        else if (dayPassed >= 120 && dayPassed <= 125)
-        {
-            Debug.Log("Telefon Çalıyor(troll)");
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                Debug.Log("Telefon Açıldı");
-            }
-        }
-        else if (dayPassed >= 300 && dayPassed <= 305)
-        {
-            Debug.Log("Telefon Çalıyor(ihbar)");
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                Debug.Log("Telefon Açıldı");
-            }
-        }
-        else if (dayPassed >= 350 && dayPassed <= 355)
-        {
-            Debug.Log("Telefon Çalıyor(troll)");
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                Debug.Log("Telefon Açıldı");
-            }
-        }
-        else if (dayPassed >= 410 && dayPassed <= 415)
-        {
-            Debug.Log("Telefon Çalıyor(ihbar)");
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                Debug.Log("Telefon Açıldı");
-            }
-        }
+        #endregion
     }
 }

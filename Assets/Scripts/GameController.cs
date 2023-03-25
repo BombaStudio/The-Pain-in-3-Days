@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
     public Edvanter edvanter;
     [SerializeField] List<GameObject> rooms;
     [SerializeField] GameObject fog_prefab;
-    [SerializeField] AudioClip quake, openPhone,eat,drink;
+    [SerializeField] AudioClip quake, openPhone,eat,drink,call;
 
     public string GameState;
     public float scene_cooldown;
@@ -21,8 +21,9 @@ public class GameController : MonoBehaviour
     [SerializeField] Text health_print, food_print, water_print, air_print;
     [SerializeField] Button phone_button, health_button, food_button, water_button;
 
-    [SerializeField] bool usePhone,ringing;
+    public bool usePhone,ringing;
     [SerializeField] float minutes;
+    public string callType;
 
     void Start()
     {
@@ -65,21 +66,16 @@ public class GameController : MonoBehaviour
 
     public void game()
     {
-        switch (data.day)
+        if (ringing)
         {
-            case 0: break;
-            case 1:
-                if (minutes > 30 && minutes < 60)
-                {
-
-                }
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            default:break;
+            if (usePhone) { }
+            else
+            {
+                GetComponent<AudioSource>().clip = call;
+                if (!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
+            }
         }
+        
         if (usePhone)
         {
             foreach (EdvanterObject eo in edvanter.objects)

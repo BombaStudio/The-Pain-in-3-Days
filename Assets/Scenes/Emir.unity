@@ -1919,7 +1919,7 @@ MonoBehaviour:
   eat: {fileID: 8300000, guid: 00f92e9f9d135764eb9dd9004eaca9ac, type: 3}
   drink: {fileID: 8300000, guid: c434f604eb3d4274a9180f5f27e2ce6f, type: 3}
   call: {fileID: 8300000, guid: f868a74ff8d645544ba3281338d5ed63, type: 3}
-  GameState: Start
+  GameState: Game
   scene_cooldown: 10
   usableObject:
     id: 0

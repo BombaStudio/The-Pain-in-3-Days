@@ -11,6 +11,7 @@ public class DayNightCircle : MonoBehaviour
 
     public GameController gc;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,44 +47,25 @@ public class DayNightCircle : MonoBehaviour
         */
 
         #region day 1
-        if (!gc.ringing)
+        if (dayPassed > 30 && dayPassed < 60)
         {
-            if (dayPassed > 30 && dayPassed < 60)
-            {
-                Debug.Log("Telefon Çalıyor(troll)");
-                gc.ringing = true;
-                if (Input.GetKeyDown(KeyCode.X))
-                {
-                    Debug.Log("Telefon Açıldı");
-                }
-            }
-            else if (dayPassed > 40 && dayPassed < 70)
-            {
-                Debug.Log("Telefon Çalıyor(ihbar)");
-                gc.ringing = true;
-                if (Input.GetKeyDown(KeyCode.X))
-                {
-                    Debug.Log("Telefon Açıldı");
-                }
-            }
-            else if (dayPassed > 90 && dayPassed < 120)
-            {
-                Debug.Log("Telefon Çalıyor(troll)");
-                gc.ringing = true;
-                if (Input.GetKeyDown(KeyCode.X))
-                {
-                    Debug.Log("Telefon Açıldı");
-                }
-            }
-            else if (dayPassed > 100 && dayPassed < 130)
-            {
-                Debug.Log("Telefon Çalıyor(ihbar)");
-                gc.ringing = true;
-                if (Input.GetKeyDown(KeyCode.X))
-                {
-                    Debug.Log("Telefon Açıldı");
-                }
-            }
+            Debug.Log("Telefon Çalıyor(troll)");
+            if (!gc.ringing) gc.ringing = true;
+        }
+        else if (dayPassed > 40 && dayPassed < 70)
+        {
+            Debug.Log("Telefon Çalıyor(ihbar)");
+            if (!gc.ringing) gc.ringing = true;
+        }
+        else if (dayPassed > 90 && dayPassed < 120)
+        {
+            Debug.Log("Telefon Çalıyor(troll)");
+            if (!gc.ringing) gc.ringing = true;
+        }
+        else if (dayPassed > 100 && dayPassed < 130)
+        {
+            Debug.Log("Telefon Çalıyor(ihbar)");
+            if (!gc.ringing) gc.ringing = true;
         }
         #endregion
     }

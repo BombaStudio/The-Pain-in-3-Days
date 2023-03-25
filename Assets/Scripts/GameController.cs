@@ -212,7 +212,10 @@ public class GameController : MonoBehaviour
                         GetComponent<AudioSource>().Play();
                         if (usePhone)
                         {
-                            if (ringing) ringing = false;
+                            if (ringing)
+                            {
+                                ringing = false;
+                            }
                             else
                             {
                                 usePhone = false;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    [SerializeField] GameObject phoneObj,leftTarget,rightTarget;
+    [SerializeField] GameObject phoneObj,leftTarget,rightTarget,headObj;
     [SerializeField] Animator animator;
 
     public string pose;
@@ -35,6 +35,8 @@ public class player : MonoBehaviour
                         {
                             // Küpün pozisyonunu týklanan noktaya ayarla
                             Vector3 cubePosition = hit.point + Vector3.up * 0.5f;
+                            Debug.Log(cubePosition);
+                            cubePosition.z = Mathf.Clamp(cubePosition.z,-12.5f,-13.5f);
                             leftTarget.transform.position = cubePosition;
                         }
                     }
@@ -52,6 +54,11 @@ public class player : MonoBehaviour
                 default:break;
             }
         }
+        if (gc.data.air < 60) gc.data.health -= 30 / gc.data.air * Time.deltaTime;
+        if (gc.data.water < 40) gc.data.health -= 30 / gc.data.water * Time.deltaTime;
+        if (gc.data.food < 40) gc.data.health -= 30 / gc.data.food * Time.deltaTime;
+
+        if (gc.data.air > 1) gc.data.air -= 0.05f * Time.deltaTime;
         //leftArm.transform.LookAt(hear.transform.position);
         switch (pose)
         {

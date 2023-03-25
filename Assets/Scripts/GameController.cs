@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public Edvanter edvanter;
     [SerializeField] List<GameObject> rooms;
     [SerializeField] GameObject fog_prefab;
+    [SerializeField] AudioClip quake, openPhone,eat,drink;
 
     public string GameState;
     public float scene_cooldown;
@@ -112,6 +113,8 @@ public class GameController : MonoBehaviour
                 {
                     usableObject.useCooldown = objectTime;
                 }
+                
+                //if (!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
             }
         }
         else
@@ -157,6 +160,8 @@ public class GameController : MonoBehaviour
     {
         if (Camera.main.transform.position.y < 1)
         {
+            GetComponent<AudioSource>().clip = quake;
+            if (!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
             if (scene_cooldown > 0)
             {
                 foreach (GameObject room in rooms)
@@ -173,6 +178,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
+                GetComponent<AudioSource>().Stop();
                 rooms.Remove(rooms.ToArray()[0]);
                 foreach (GameObject room in rooms)
                 {
@@ -206,6 +212,8 @@ public class GameController : MonoBehaviour
                 {
                     if (eo.id == 0)
                     {
+                        GetComponent<AudioSource>().clip = openPhone;
+                        GetComponent<AudioSource>().Play();
                         if (usePhone)
                         {
                             if (ringing) ringing = false;
@@ -236,6 +244,17 @@ public class GameController : MonoBehaviour
                             Debug.Log(eo.id);
                             eo.health -= 1;
                             usableObject = eo;
+                            switch (usableObject.id)
+                            {
+                                case 1:
+                                    GetComponent<AudioSource>().clip = eat;
+                                    break;
+                                case 2:
+                                    GetComponent<AudioSource>().clip = drink;
+                                    break;
+                                default: break;
+                            }
+                            GetComponent<AudioSource>().Play();
                         }
                         else break;
                         

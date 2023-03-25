@@ -9,7 +9,6 @@ public class forceWall : MonoBehaviour
     public float time;
     public Vector3 dir;
 
-
     float reqTime;
     void Start()
     {
@@ -21,6 +20,7 @@ public class forceWall : MonoBehaviour
         if (!forced)
         {
             GetComponent<Rigidbody>().isKinematic = false;
+            if (transform.childCount > 0) transform.GetChild(0).gameObject.SetActive(true);
             if (time > 0)
             {
                 GetComponent<Rigidbody>().AddForce(dir);

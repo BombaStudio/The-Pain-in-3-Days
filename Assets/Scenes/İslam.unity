@@ -1045,8 +1045,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17f03d23a04d0684e86ad20d7568c2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  daynighttime: 5
-  daynightspeed: 30
+  daynightspeed: 5
+  dayPassed: 0
+  phoneCallTime: 0
+  phoneCallLastTime: 0
 --- !u!1 &1558901048
 GameObject:
   m_ObjectHideFlags: 0

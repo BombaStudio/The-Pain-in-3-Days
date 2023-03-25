@@ -9,6 +9,7 @@ public class AI : MonoBehaviour
     public float speed;
     public float totalspeed;
     public float stoppingDistance;
+    public Animator anim;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +27,12 @@ public class AI : MonoBehaviour
             if (Vector3.Distance(transform.position, player.position) <= stoppingDistance)
             {
                 speed = 0;
+                anim.SetBool("walk", false);
             }
             else
             {
                 speed = totalspeed;
+                anim.SetBool("walk", true);
             }
         }
     }

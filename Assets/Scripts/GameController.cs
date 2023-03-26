@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
     public Edvanter edvanter;
     [SerializeField] List<GameObject> rooms;
     [SerializeField] GameObject fog_prefab;
-    [SerializeField] AudioClip quake, openPhone,eat,drink,call;
+    [SerializeField] AudioClip quake, openPhone,eat,drink,call,scream,talktroll,talkhelper;
 
     public string GameState;
     public float scene_cooldown;
@@ -24,6 +24,25 @@ public class GameController : MonoBehaviour
     public bool usePhone,ringing;
     [SerializeField] float minutes;
     public string callType;
+
+    public int yardim;
+
+    public DayNightCircle day;
+
+    public bool stp;
+
+    public player p;
+
+    public Image sansur;
+    public int sansur_cooldown = 2;
+
+    public bool cutArm;
+
+    //[SerializeField] GameObject phone;
+
+    public float endCooldown;
+
+    [SerializeField] GameObject startMan,skippanel;
 
     void Start()
     {
@@ -53,104 +72,142 @@ public class GameController : MonoBehaviour
         foreach (Transform c in transform.GetChild(0).GetComponentInChildren<Transform>())
         {
             if (c.name == GameState) c.gameObject.SetActive(true);
-            else c.gameObject.SetActive(false);
+            else
+            {
+                if (c.name == "StatusPanel" && (cutArm || sansur.color.a > 0)) c.gameObject.SetActive(true);
+                else c.gameObject.SetActive(false);
+            }
         }
         switch (GameState)
         {
             case "Start": startgame(); break;
             case "Game": game(); break;
+            case "GameOver": gameOver(); break;
             default: break;
         }
     }
 
+    public void gameOver()
+    {
+        if (endCooldown > 0)
+        {
+            endCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            Application.Quit();
+        }
+    }
 
     public void game()
     {
-        if (ringing)
+        if (data.health > 0)
         {
-            if (usePhone) { }
-            else
+            if (ringing)
             {
-                GetComponent<AudioSource>().clip = call;
-                if (!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
-            }
-        }
-        
-        if (usePhone)
-        {
-            foreach (EdvanterObject eo in edvanter.objects)
-            {
-                if (eo.id == 0)
+                if (usePhone)
                 {
-                    usableObject = eo;
-                    eo.health = (int)(eo.useCooldown / 180 * 100);
-                    objectTime = eo.useCooldown;
-                    break;
+                    if (callType == "trol" && stp)
+                    {
+                        GetComponent<AudioSource>().clip = talktroll;
+                        if (!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
+                        stp = false;
+                    }
+                    if (callType == "ihbar" && stp)
+                    {
+                        GetComponent<AudioSource>().clip = talkhelper;
+                        if (!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
+                        yardim++;
+                        stp = false;
+                    }
+                }
+                else
+                {
+                    GetComponent<AudioSource>().clip = call;
+                    if (!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
                 }
             }
-        }
-       
-        else
-        {
-            if (usableObject == null || usableObject.id == 0)
-            {
-                objectTime = 0;
-                usableObject = null;
-            }
-        }
-        
 
-        if (objectTime > 0)
-        {
-            if (usableObject != null)
+            if (usePhone)
             {
-                objectTime -= Time.deltaTime;
-                if (usableObject.id == 0 && usePhone)
-                {
-                    usableObject.useCooldown = objectTime;
-                }
-                
-                //if (!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
-            }
-        }
-        else
-        {
-            if (usableObject != null && usableObject.id == 0)
-            {
-                foreach(EdvanterObject eo in edvanter.objects)
+                foreach (EdvanterObject eo in edvanter.objects)
                 {
                     if (eo.id == 0)
                     {
-                        //eo.useCooldown = objectTime;
+                        usableObject = eo;
+                        eo.health = (int)(eo.useCooldown / 180 * 100);
+                        objectTime = eo.useCooldown;
                         break;
                     }
                 }
-                usePhone = false;
             }
-            usableObject = null;
-        }
 
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(-7, -2.5f, -11),Time.deltaTime);
-        foreach (EdvanterObject eo in edvanter.objects)
-        {
-            //Debug.Log(btns.ToArray()[eo.id].transform.GetChild(0).GetComponent<Text>().text);
-            switch (eo.id)
+            else
             {
-                case 0:
-                    phone_button.transform.GetChild(0).GetComponent<Text>().text = eo.health.ToString();
-                    break;
-                case 1:
-                    food_button.transform.GetChild(0).GetComponent<Text>().text = eo.health.ToString();
-                    break;
-                case 2:
-                    water_button.transform.GetChild(0).GetComponent<Text>().text = eo.health.ToString();
-                    break;
-                case 3:
-                    health_button.transform.GetChild(0).GetComponent<Text>().text = eo.health.ToString();
-                    break;
-                default: break;
+                if (usableObject == null || usableObject.id == 0)
+                {
+                    objectTime = 0;
+                    usableObject = null;
+                }
+            }
+
+
+            if (objectTime > 0)
+            {
+                if (usableObject != null)
+                {
+                    objectTime -= Time.deltaTime;
+                    if (usableObject.id == 0 && usePhone)
+                    {
+                        usableObject.useCooldown = objectTime;
+                    }
+
+                    //if (!GetComponent<AudioSource>().isPlaying) GetComponent<AudioSource>().Play();
+                }
+            }
+            else
+            {
+                if (usableObject != null && usableObject.id == 0)
+                {
+                    foreach (EdvanterObject eo in edvanter.objects)
+                    {
+                        if (eo.id == 0)
+                        {
+                            //eo.useCooldown = objectTime;
+                            break;
+                        }
+                    }
+                    usePhone = false;
+                }
+                usableObject = null;
+            }
+
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(-7, -2.5f, -11), Time.deltaTime);
+            foreach (EdvanterObject eo in edvanter.objects)
+            {
+                //Debug.Log(btns.ToArray()[eo.id].transform.GetChild(0).GetComponent<Text>().text);
+                switch (eo.id)
+                {
+                    case 0:
+                        phone_button.transform.GetChild(0).GetComponent<Text>().text = eo.health.ToString();
+                        break;
+                    case 1:
+                        food_button.transform.GetChild(0).GetComponent<Text>().text = eo.health.ToString();
+                        break;
+                    case 2:
+                        water_button.transform.GetChild(0).GetComponent<Text>().text = eo.health.ToString();
+                        break;
+                    case 3:
+                        health_button.transform.GetChild(0).GetComponent<Text>().text = eo.health.ToString();
+                        break;
+                    default: break;
+                }
             }
         }
+    }
+    public void begining()
+    {
+        GameState = "Start";
     }
     public void startgame()
     {
@@ -170,6 +227,8 @@ public class GameController : MonoBehaviour
                         }
                     }
                 }
+                startMan.GetComponent<Animator>().enabled = false;
+                skippanel.GetComponent<Image>().color = new Color(0, 0, 0, skippanel.GetComponent<Image>().color.a + Time.deltaTime/2);
                 scene_cooldown -= Time.deltaTime;
             }
             else

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Animator))]
 public class AI : MonoBehaviour
 {
     public bool helpCall;
@@ -10,6 +13,11 @@ public class AI : MonoBehaviour
     public float totalspeed;
     public float stoppingDistance;
     public Animator anim;
+    public GameController controller;
+
+    public float destroyCooldown = 1;
+    public bool destroy;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +42,22 @@ public class AI : MonoBehaviour
                 speed = totalspeed;
                 anim.SetBool("walk", true);
             }
+        }
+        if (destroy)
+        {
+            if (destroyCooldown > 0) destroyCooldown -= Time.deltaTime;
+            else
+            {
+                controller.cutArm = true;
+                gameObject.SetActive(false);
+            }
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "help")
+        {
+            destroy = true;
         }
     }
 }
